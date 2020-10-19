@@ -1,0 +1,49 @@
+{
+    "module": "metrics_refbox.gesture_recognition",
+    "class": "GestureRecognitionConfig",
+    "trial_config": "gesture_recognition_trials.json",
+    "timeout": 20.0,
+
+    "variations" :
+    {
+      "Distance":
+      [
+        "0.5 m",
+        "1.0 m",
+        "1.5 m",
+        "2.0 m",
+        "5.0 m"
+      ],
+
+      "Pose":
+      [
+        "Standing",
+        "Sitting",
+        "Laying"
+      ],
+
+      "Person":
+      [
+        "Alice",
+        "Bob"
+      ],
+      "Gesture": "gestures_list.txt"
+    },
+    "selection likelihood":
+    {
+      "Pose":
+      [
+        0.45,
+        0.45,
+        0.1
+      ]
+    },
+    "multiple choice variation": [],
+
+    "results":
+    {
+      "Result": "text_field",
+      "Recognized gesture": "text_field"
+    },
+    "multiple choice result": []
+}

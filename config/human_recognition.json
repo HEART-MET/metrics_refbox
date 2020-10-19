@@ -1,0 +1,82 @@
+{
+    "module": "metrics_refbox.human_recognition",
+    "class": "HumanRecognitionConfig",
+    "trial_config": "human_recognition_trials.json",
+    "timeout": 20.0,
+
+    "variations" :
+    {
+      "Distance":
+      [
+        "0.5 m",
+        "1.0 m",
+        "1.5 m",
+        "2.0 m",
+        "5.0 m"
+      ],
+
+      "Pose":
+      [
+        "Standing",
+        "Sitting",
+        "Laying"
+      ],
+
+      "Face pose":
+      [
+        "Straight",
+        "Left (30\u00b0)",
+        "Right (30\u00b0)"
+      ],
+
+      "Eyewear":
+      [
+        "Yes",
+        "No"
+      ],
+
+      "Headwear":
+      [
+        "Yes",
+        "No"
+      ],
+
+      "Mask":
+      [
+        "Yes",
+        "No"
+      ],
+      "Person":
+      [
+        "Alice",
+        "Bob"
+      ]
+    },
+    "selection likelihood":
+    {
+      "Eyewear":
+      [
+        0.3,
+        0.7
+      ],
+      "Headwear":
+      [
+        0.3,
+        0.7
+      ],
+      "Mask":
+      [
+        0.3,
+        0.7
+      ]
+    },
+    "multiple choice variation": [],
+
+    "results":
+    {
+      "Result": "text_field",
+      "Recognized person": "text_field"
+
+    },
+    "multiple choice result": []
+}

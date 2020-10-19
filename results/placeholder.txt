@@ -1,0 +1,1 @@
+This text file is a placeholder so that we can add the result folder to git

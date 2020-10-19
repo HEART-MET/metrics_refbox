@@ -1,0 +1,3 @@
+*.pyc
+config/trials/*.json
+results/*.json

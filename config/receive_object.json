@@ -1,0 +1,65 @@
+{
+    "module": "metrics_refbox.receive_object",
+    "class": "ReceiveObjectConfig",
+    "trial_config": "receive_object_trials.json",
+    "timeout": 20.0,
+
+    "variations" :
+    {
+      "Object":
+      [
+        "Cup",
+        "Plate",
+        "Medicine box",
+        "Water bottle",
+        "Reading glasses",
+        "Towel",
+        "Cellphone",
+        "Shoes"
+      ],
+      "Person":
+      [
+        "Alice",
+        "Bob"
+      ],
+
+      "Pose":
+      [
+        "Standing",
+        "Sitting",
+        "Laying"
+      ],
+      "Pre-grasp behaviour":
+      [
+        "Reaches out with object",
+        "Does not reach out",
+        "Drops object"
+      ],
+
+      "Behaviour during grasp":
+      [
+        "Releases object",
+        "Does not release object"
+      ]
+    },
+    "selection likelihood":
+    {
+      "Pose":
+      [
+        0.33,
+        0.33,
+        0.34
+      ]
+    },
+    "multiple choice variation": [],
+
+    "results":
+    {
+      "Result": "text_field",
+      "Detected pose": "text_field",
+      "Detected pre-grasp behaviour": "text_field",
+      "Grasped": "text_field",
+      "Detected behaviour during handover": "text_field"
+    },
+    "multiple choice result": []
+}
