@@ -29,6 +29,14 @@
         "Sitting",
         "Laying"
       ],
+      "Location":
+      [
+        "Location A",
+        "Location B",
+        "Location C",
+        "Location D",
+        "Location E"
+      ],
       "Pre-grasp behaviour":
       [
         "Reaches out with object",

@@ -18,3 +18,8 @@ class HumanRecognitionConfig(BenchmarkConfig):
         result = {}
         result['recognized_person'] = msg.identity
         return result
+
+    def get_trial_result_dict(self, msg, current_trial_name, current_team_name, timeout, stopped, elapsed_time):
+        results = super(HumanRecognitionConfig, self).get_trial_result_dict(msg, current_trial_name, current_team_name, timeout, stopped, elapsed_time)
+        results['config']['Target Persons'] = self.config['Target Persons']
+        return results

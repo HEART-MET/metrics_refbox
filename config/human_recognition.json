@@ -49,9 +49,24 @@
       "Person":
       [
         "Alice",
-        "Bob"
+        "Bob",
+        "Jane",
+        "John"
+      ],
+      "Location":
+      [
+        "Location A",
+        "Location B",
+        "Location C",
+        "Location D",
+        "Location E"
       ]
     },
+    "Target Persons":
+    [
+      "Alice",
+      "Bob"
+    ],
     "selection likelihood":
     {
       "Eyewear":
