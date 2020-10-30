@@ -4,7 +4,6 @@ class HandoverObjectConfig(BenchmarkConfig):
     def __init__(self, config, config_path, benchmark_name, benchmark_result_type):
         super(HandoverObjectConfig, self).__init__(config, config_path, benchmark_name, benchmark_result_type)
 
-        print(self.result_type)
         self.pose_map = {}
         self.pose_map[self.result_type.HUMAN_POSE_LAYING] = 'Laying'
         self.pose_map[self.result_type.HUMAN_POSE_STANDING] = 'Standing'

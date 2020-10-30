@@ -23,6 +23,7 @@ class MetricsRefboxWidget(QWidget):
     status_signal = pyqtSignal(object)
     timeout_signal = pyqtSignal(object)
     result_signal = pyqtSignal(object)
+    bagfile_signal = pyqtSignal(object)
 
 
     def __init__(self):
@@ -30,6 +31,7 @@ class MetricsRefboxWidget(QWidget):
         self.status_signal.connect(self.update_status)
         self.timeout_signal.connect(self._handle_timeout)
         self.result_signal.connect(self.update_result)
+        self.bagfile_signal.connect(self._update_bagfile_name)
         self.timer = QElapsedTimer()
         self.timer_interrupt = QTimer(self)
         self.timer_interrupt.timeout.connect(self.update_timer)
@@ -397,6 +399,9 @@ class MetricsRefboxWidget(QWidget):
         m = '[' + timestamp + '] ' + msg
         self.status.insertPlainText(m)
         self.status.ensureCursorVisible();
+
+    def _update_bagfile_name(self, name):
+        self.current_benchmark.set_bagfile_name(name)
 
     def update_result(self, msg):
         '''
