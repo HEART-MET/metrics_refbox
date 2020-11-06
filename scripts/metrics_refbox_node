@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import metrics_refbox.metrics_refbox_gui
 import rospy

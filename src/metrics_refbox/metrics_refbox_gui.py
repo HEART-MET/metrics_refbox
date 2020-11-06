@@ -13,7 +13,6 @@ import sys
 import datetime
 import glob
 import os
-import ipdb
 import importlib
 
 
@@ -171,7 +170,7 @@ class MetricsRefboxWidget(QWidget):
         Load config file for selected benchmark and setup GUI to show config and results based on that
         '''
         benchmark_index = self.benchmark_combo_box.currentIndex()
-        benchmark_name = self.config['benchmarks'].keys()[benchmark_index]
+        benchmark_name = list(self.config['benchmarks'].keys())[benchmark_index]
         benchmark_result_type = getattr(metrics_refbox_msgs.msg, self.config['benchmarks'][benchmark_name]['type'])
         config_file_name = benchmark_name + '.json'
         config_file = os.path.join(self.metrics_refbox.get_config_file_path(), config_file_name)
@@ -210,7 +209,7 @@ class MetricsRefboxWidget(QWidget):
                 trial_item = QListWidgetItem(key)
                 trial_item.setFlags(trial_item.flags() | Qt.ItemIsEditable)
                 self.trial_list_widget.addItem(trial_item)
-                self.trial_configs[trial_item] = trial_config[key]
+                self.trial_configs[key] = trial_config[key]
             self.trial_list_widget.setCurrentRow(0)
 
     def _handle_test_comm(self):
@@ -233,9 +232,9 @@ class MetricsRefboxWidget(QWidget):
         Trial selection has changed
         '''
         if previous_item is not None:
-            self.trial_configs[previous_item] = self.current_benchmark.get_current_selections()
-        if current_item in self.trial_configs.keys() and self.trial_configs[current_item] is not None:
-            self.current_benchmark.apply_selections(self.trial_configs[current_item])
+            self.trial_configs[previous_item.text()] = self.current_benchmark.get_current_selections()
+        if current_item is not None and current_item.text() in self.trial_configs.keys() and self.trial_configs[current_item.text()] is not None:
+            self.current_benchmark.apply_selections(self.trial_configs[current_item.text()])
         else:
             self.current_benchmark.clear_selections()
 
@@ -246,7 +245,7 @@ class MetricsRefboxWidget(QWidget):
         trial_config = self.current_benchmark.generate()
         names = []
         for key in self.trial_configs.keys():
-            names.append(key.text())
+            names.append(key)
         msg = 'Select a name for this trial configuration'
         text = ''
         while True:
@@ -258,7 +257,7 @@ class MetricsRefboxWidget(QWidget):
             trial_item = QListWidgetItem(text)
             trial_item.setFlags(trial_item.flags() | Qt.ItemIsEditable)
             self.trial_list_widget.addItem(trial_item)
-            self.trial_configs[trial_item] = trial_config
+            self.trial_configs[text] = trial_config
             self.trial_list_widget.setCurrentItem(trial_item)
 
     def _handle_delete(self, button):
@@ -268,21 +267,19 @@ class MetricsRefboxWidget(QWidget):
         selected_items = self.trial_list_widget.selectedItems()
         for item in selected_items:
             self.trial_list_widget.takeItem(self.trial_list_widget.row(item))
-            del self.trial_configs[item]
+            del self.trial_configs[item.text()]
 
 
     def _handle_save_trial_config(self, button):
         '''
         save trial config in case it has been edited
         '''
-        trial_config = {}
-        for key in self.trial_configs.keys():
-            trial_config[key.text()] = self.trial_configs[key]
-
+        if self.trial_list_widget.currentItem() is not None:
+            self.trial_configs[self.trial_list_widget.currentItem().text()] = self.current_benchmark.get_current_selections()
         path = os.path.join(self.metrics_refbox.get_config_file_path(), 'trials')
         trial_config_file = os.path.join(path, self.current_benchmark.config['trial_config'])
         with open(trial_config_file, "w") as fp:
-            json.dump(trial_config, fp)
+            json.dump(self.trial_configs, fp)
 
     def _handle_lock(self, button):
         '''

@@ -1,6 +1,6 @@
 import random
 from python_qt_binding.QtWidgets import QCheckBox, QRadioButton, QComboBox
-from benchmark_config import BenchmarkConfig
+from metrics_refbox.benchmark_config import BenchmarkConfig
 from metrics_refbox_msgs.msg import ObjectDetectionResult
 from rospy_message_converter import message_converter
 
