@@ -12,9 +12,10 @@ class ActivityRecognitionConfig(BenchmarkConfig):
         else:
             self.result_widgets['Result'].setText('Complete')
             widget = self.result_widgets['Recognized activity']
-            widget.setText(msg.activity)
+            if len(msg.activities) > 0:
+                widget.setText(msg.activities[0])
 
     def get_result_dict_from_msg(self, msg):
         result = {}
-        result['recognized_activity'] = msg.activity
+        result['recognized_activities'] = msg.activities
         return result

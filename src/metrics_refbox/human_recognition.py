@@ -12,11 +12,12 @@ class HumanRecognitionConfig(BenchmarkConfig):
         else:
             self.result_widgets['Result'].setText('Complete')
             widget = self.result_widgets['Recognized person']
-            widget.setText(msg.identity)
+            if len(msg.identities) > 0:
+                widget.setText(msg.identities[0])
 
     def get_result_dict_from_msg(self, msg):
         result = {}
-        result['recognized_person'] = msg.identity
+        result['recognized_person'] = msg.identities
         return result
 
     def get_trial_result_dict(self, msg, current_trial_name, current_team_name, timeout, stopped, elapsed_time):

@@ -12,9 +12,10 @@ class GestureRecognitionConfig(BenchmarkConfig):
         else:
             self.result_widgets['Result'].setText('Complete')
             widget = self.result_widgets['Recognized gesture']
-            widget.setText(msg.gesture)
+            if len(msg.gestures) > 0:
+                widget.setText(msg.gestures[0])
 
     def get_result_dict_from_msg(self, msg):
         result = {}
-        result['recognized_gesture'] = msg.gesture
+        result['recognized_gesture'] = msg.gestures
         return result
