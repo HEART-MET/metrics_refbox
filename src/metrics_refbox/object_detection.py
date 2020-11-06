@@ -1,5 +1,5 @@
 import random
-from python_qt_binding.QtWidgets import QCheckBox, QRadioButton
+from python_qt_binding.QtWidgets import QCheckBox, QRadioButton, QComboBox
 from benchmark_config import BenchmarkConfig
 from metrics_refbox_msgs.msg import ObjectDetectionResult
 from rospy_message_converter import message_converter
@@ -52,6 +52,8 @@ class ObjectDetectionConfig(BenchmarkConfig):
             if isinstance(child, QRadioButton) or isinstance(child, QCheckBox):
                 if child.isChecked():
                     config['Target object'] = child.text()
+            if isinstance(child, QComboBox):
+                config['Target object'] = child.currentText()
         return config
 
 

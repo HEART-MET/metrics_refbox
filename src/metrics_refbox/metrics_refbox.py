@@ -51,7 +51,7 @@ class MetricsRefbox(object):
         callback for command confirmation message from refbox client
         '''
         if msg.uid != self.last_command_uid:
-            self.status_cb("confirmation has different uid")
+            self.gui_status_cb("confirmation has different uid")
             return
         self.gui_start_cb(msg)
 
