@@ -2,7 +2,7 @@
     "module": "metrics_refbox.handover_object",
     "class": "HandoverObjectConfig",
     "trial_config": "handover_object_trials.json",
-    "timeout": 20.0,
+    "timeout": 30.0,
 
     "variations" :
     {
