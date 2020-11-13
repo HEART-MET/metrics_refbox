@@ -1,6 +1,9 @@
-Waving for attention
-Waving to come closer
-Waving to go away
-Pointing to object
+Thumb up
+Thumb down
+Stop sign
+Call someone / pulling hand in
+Push hand out / wave someone away
+Waving / shake hand
+Pointing
 Nodding
 Shaking head

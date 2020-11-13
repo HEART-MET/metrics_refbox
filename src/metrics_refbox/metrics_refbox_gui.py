@@ -404,17 +404,16 @@ class MetricsRefboxWidget(QWidget):
         '''
         signal handler for result message; process and save result
         '''
-        if msg is not None:
-            self.current_benchmark.show_results(msg, self.timeout, self.stopped)
-            current_trial_name = self.trial_list_widget.currentItem().text()
-            current_team_name = self.team_combo_box.currentText()
-            results_dict = self.current_benchmark.get_trial_result_dict(msg, current_trial_name, current_team_name,
-                                        self.timeout, self.stopped, self.elapsed_time / 1000.0)
+        self.current_benchmark.show_results(msg, self.timeout, self.stopped)
+        current_trial_name = self.trial_list_widget.currentItem().text()
+        current_team_name = self.team_combo_box.currentText()
+        results_dict = self.current_benchmark.get_trial_result_dict(msg, current_trial_name, current_team_name,
+                                    self.timeout, self.stopped, self.elapsed_time / 1000.0)
 
-            filename = self.current_benchmark.get_bagfile_name()[:-4] + '_' + self.current_benchmark.benchmark_name + '.json'
-            path = os.path.join(self.metrics_refbox.get_results_file_path(), filename)
-            with open(path, "w") as fp:
-                json.dump(results_dict, fp)
+        filename = self.current_benchmark.get_bagfile_name()[:-4] + '_' + self.current_benchmark.benchmark_name + '.json'
+        path = os.path.join(self.metrics_refbox.get_results_file_path(), filename)
+        with open(path, "w") as fp:
+            json.dump(results_dict, fp)
 
     def update_timer(self):
         '''

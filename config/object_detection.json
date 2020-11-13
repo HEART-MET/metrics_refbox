@@ -11,19 +11,30 @@
       [
         "Cup",
         "Plate",
-        "Medicine box",
-        "Water bottle",
-        "Reading glasses",
+        "Bowl",
         "Towel",
+        "Shoes",
+        "Sponge",
+        "Bottle",
+        "Toothbrush",
+        "Toothpaste",
+        "Tray",
+        "Sweater",
         "Cellphone",
-        "Shoes"
+        "Banana",
+        "Medicine bottle",
+        "Reading glasses",
+        "Flashlight",
+        "Pill box"
       ],
 
       "Secondary objects":
       [
         "Book",
         "Knife",
-        "Toaster"
+        "Toaster",
+        "Cellphone charger",
+        "Shopping bag"
       ],
 
       "Target object present":

@@ -51,7 +51,8 @@
         "Alice",
         "Bob",
         "Jane",
-        "John"
+        "John",
+        "Unknown"
       ],
       "Location":
       [
@@ -65,7 +66,9 @@
     "Target Persons":
     [
       "Alice",
-      "Bob"
+      "Bob",
+      "Jane",
+      "John"
     ],
     "selection likelihood":
     {
