@@ -233,6 +233,7 @@ class MetricsRefboxWidget(QWidget):
         '''
         if previous_item is not None:
             self.trial_configs[previous_item.text()] = self.current_benchmark.get_current_selections()
+            self.current_benchmark.clear_results()
         if current_item is not None and current_item.text() in self.trial_configs.keys() and self.trial_configs[current_item.text()] is not None:
             self.current_benchmark.apply_selections(self.trial_configs[current_item.text()])
         else:

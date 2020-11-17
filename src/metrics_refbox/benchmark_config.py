@@ -216,6 +216,7 @@ class BenchmarkConfig(object):
                             child.setCurrentIndex(0)
             else:
                 self.result_widgets[res].setText('')
+        self.notes_widget.clear()
 
 
     def get_trial_result_dict(self, msg, current_trial_name, current_team_name, timeout, stopped, elapsed_time):
