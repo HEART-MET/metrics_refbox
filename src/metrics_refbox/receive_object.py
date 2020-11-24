@@ -5,23 +5,28 @@ class ReceiveObjectConfig(BenchmarkConfig):
         super(ReceiveObjectConfig, self).__init__(config, config_path, benchmark_name, benchmark_result_type)
 
         self.pose_map = {}
+        self.pose_map[0] = 'None'
         self.pose_map[self.result_type.HUMAN_POSE_LAYING] = 'Laying'
         self.pose_map[self.result_type.HUMAN_POSE_STANDING] = 'Standing'
         self.pose_map[self.result_type.HUMAN_POSE_SITTING] = 'Sitting'
 
         self.reach_map = {}
+        self.reach_map[0] = 'None'
         self.reach_map[self.result_type.HUMAN_REACHED_OUT] = 'Reaches out'
         self.reach_map[self.result_type.HUMAN_DID_NOT_REACH_OUT] = 'Does not reach out'
 
         self.pre_grasp_map = {}
+        self.pre_grasp_map[0] = 'None'
         self.pre_grasp_map[self.result_type.OBJECT_DROPPED_BEFORE_GRASP] = 'Drops object'
         self.pre_grasp_map[self.result_type.OBJECT_NOT_DROPPED_BEFORE_GRASP] = 'Object not dropped'
 
         self.grasp_map = {}
+        self.grasp_map[0] = 'None'
         self.grasp_map[self.result_type.GRASP_SUCCESSFUL] = 'Yes'
         self.grasp_map[self.result_type.GRASP_UNSUCCESSFUL] = 'No'
 
         self.post_grasp_map = {}
+        self.post_grasp_map[0] = 'None'
         self.post_grasp_map[self.result_type.GRASP_SUCCESSFUL] = 'Object released'
         self.post_grasp_map[self.result_type.GRASP_UNSUCCESSFUL] = 'Object not released'
 

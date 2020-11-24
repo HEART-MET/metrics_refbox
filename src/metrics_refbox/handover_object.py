@@ -5,19 +5,23 @@ class HandoverObjectConfig(BenchmarkConfig):
         super(HandoverObjectConfig, self).__init__(config, config_path, benchmark_name, benchmark_result_type)
 
         self.pose_map = {}
+        self.pose_map[0] = 'None'
         self.pose_map[self.result_type.HUMAN_POSE_LAYING] = 'Laying'
         self.pose_map[self.result_type.HUMAN_POSE_STANDING] = 'Standing'
         self.pose_map[self.result_type.HUMAN_POSE_SITTING] = 'Sitting'
 
         self.reach_map = {}
+        self.reach_map[0] = 'None'
         self.reach_map[self.result_type.HUMAN_REACHED_OUT] = 'Reaches out'
         self.reach_map[self.result_type.HUMAN_DID_NOT_REACH_OUT] = 'Does not reach out'
 
         self.grasp_map = {}
+        self.grasp_map[0] = 'None'
         self.grasp_map[self.result_type.GRASP_SUCCESSFUL] = 'Grasps object'
         self.grasp_map[self.result_type.GRASP_UNSUCCESSFUL] = 'Does not grasp object'
 
         self.post_grasp_map = {}
+        self.post_grasp_map[0] = 'None'
         self.post_grasp_map[self.result_type.OBJECT_DROPPED_AFTER_GRASP] = 'Drops object'
         self.post_grasp_map[self.result_type.OBJECT_NOT_DROPPED_AFTER_GRASP] = 'Keeps object in hand'
 
