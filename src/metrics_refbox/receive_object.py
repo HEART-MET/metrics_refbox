@@ -27,8 +27,8 @@ class ReceiveObjectConfig(BenchmarkConfig):
 
         self.post_grasp_map = {}
         self.post_grasp_map[0] = 'None'
-        self.post_grasp_map[self.result_type.GRASP_SUCCESSFUL] = 'Object released'
-        self.post_grasp_map[self.result_type.GRASP_UNSUCCESSFUL] = 'Object not released'
+        self.post_grasp_map[self.result_type.OBJECT_RELEASED] = 'Object released'
+        self.post_grasp_map[self.result_type.OBJECT_NOT_RELEASED] = 'Object not released'
 
 
     def show_results(self, msg, timeout, stopped):
