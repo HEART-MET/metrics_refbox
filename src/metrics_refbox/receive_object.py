@@ -50,7 +50,7 @@ class ReceiveObjectConfig(BenchmarkConfig):
         result = {}
         result['detected_human_pose'] = self.pose_map[msg.human_pose]
         result['detected_human_reach_out_result'] = self.reach_map[msg.human_reach_out_result]
-        result['detected_pre_grasp_behaviour'] = self.reach_map[msg.pre_grasp_result]
+        result['detected_pre_grasp_behaviour'] = self.pre_grasp_map[msg.pre_grasp_result]
         result['detected_grasp_result'] = self.grasp_map[msg.grasp_result]
         result['detected_post_grasp_behaviour'] = self.post_grasp_map[msg.post_grasp_result]
         return result
