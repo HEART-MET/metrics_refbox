@@ -44,6 +44,9 @@ class MetricsRefboxWidget(QWidget):
         self.benchmark_running = False
         # once we send the start message to robot
         self.benchmark_started = False
+        # set to True if we're not recording individual trials
+        # but rather continuously recording all data (hence no timeouts)
+        self.continuous_recording = False
         self.timeout = False
         self.stopped = False
         self.result_msg = None
@@ -132,6 +135,9 @@ class MetricsRefboxWidget(QWidget):
         self.prev_trial_button.clicked.connect(self._handle_prev_trial)
         self.next_trial_button = QPushButton('Next')
         self.next_trial_button.clicked.connect(self._handle_next_trial)
+        self.start_continuous_recording_button = QPushButton('Start continuous recording')
+        self.start_continuous_recording_button.clicked.connect(self._handle_continuous_recording)
+
         self.timer_field = QLabel()
         font = QFont("Arial", 20, QFont.Bold)
         self.timer_field.setFont(font)
@@ -140,6 +146,7 @@ class MetricsRefboxWidget(QWidget):
         benchmark_controls_layout.addWidget(self.stop_trial_button)
         benchmark_controls_layout.addWidget(self.prev_trial_button)
         benchmark_controls_layout.addWidget(self.next_trial_button)
+        benchmark_controls_layout.addWidget(self.start_continuous_recording_button)
         benchmark_controls_layout.addWidget(self.timer_field)
         benchmark_controls_group_box.setLayout(benchmark_controls_layout)
 
@@ -339,6 +346,32 @@ class MetricsRefboxWidget(QWidget):
         if (row - 1 >= 0):
             self.trial_list_widget.setCurrentRow(row - 1)
 
+    def _handle_continuous_recording(self, button):
+        '''
+        Start recording button, not tied to any benchmark, and requires user to stop recording
+        '''
+        if self.benchmark_running or self.benchmark_started:
+            self.metrics_refbox.stop()
+            self.elapsed_time = self.timer.elapsed()
+            self.stopped = True
+            self.benchmark_running = False
+            self.benchmark_started = False
+            self.status_signal.emit("Sent stop command\n")
+            self.start_continuous_recording_button.setText('Start continuous recording')
+            self.enable_buttons()
+            self.stop_trial_button.setEnabled(True)
+            self.continuous_recording = False
+        else:
+            self.metrics_refbox.start_recording()
+            self.continuous_recording = True
+            self.start_continuous_recording_button.setText('Stop recording')
+            self.benchmark_started = True
+            self.update_status("Sent start command\n")
+            self.timer_field.setText('')
+            self.disable_buttons()
+            self.stop_trial_button.setEnabled(False)
+
+
     def _handle_save_result(self, button):
         '''
         Save results again in case notes were added
@@ -359,6 +392,7 @@ class MetricsRefboxWidget(QWidget):
             self.result_msg = None
             if msg.rosbag_filename == '':
                 self.status_signal.emit('Error: rosbag filename not specified although start message confirmed\n')
+                self._handle_stop_trial(None)
                 return
             self.status_signal.emit('Started trial and recording to %s\n' % msg.rosbag_filename)
             self.bagfile_signal.emit(msg.rosbag_filename)
@@ -423,6 +457,9 @@ class MetricsRefboxWidget(QWidget):
         if not self.benchmark_running:
             return
         self.timer_field.setText("Time: %.1f s" % (self.timer.elapsed() / 1000.0))
+        # if we're in continuous recording mode, no need to check timeout
+        if self.continuous_recording:
+            return
         if self.timer.hasExpired(self.current_benchmark.get_timeout() * 1000.0):
             self.status_signal.emit("Trial timeout of %.2f seconds has expired\n" % self.current_benchmark.get_timeout())
             self.timeout_signal.emit('timeout expired')

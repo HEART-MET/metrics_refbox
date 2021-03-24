@@ -91,6 +91,14 @@ class MetricsRefbox(object):
         msg.task_config = json.dumps(benchmark_config)
         self.command_msg_pub.publish(msg)
 
+    def start_recording(self):
+        self.last_command_uid = str(uuid.uuid4())
+        msg = Command()
+        msg.uid = self.last_command_uid
+        msg.command = Command.START
+        msg.task = 0
+        self.command_msg_pub.publish(msg)
+
     def stop(self):
         '''
         send stop command to refbox client
