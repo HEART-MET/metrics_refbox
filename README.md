@@ -9,3 +9,6 @@ UI for refbox for metrics benchmark runs, and can be used to:
 
 ## Dependencies
 Most dependencies are listed in [package.xml](package.xml)
+
+## Usage Instructions
+Usage instructions can be found in this [PDF file](refbox_instructions.pdf).
