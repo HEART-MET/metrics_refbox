@@ -46,22 +46,8 @@
         "Yes",
         "No"
       ],
-      "Person":
-      [
-        "Alice",
-        "Bob",
-        "Jane",
-        "John",
-        "Unknown"
-      ],
-      "Location":
-      [
-        "Location A",
-        "Location B",
-        "Location C",
-        "Location D",
-        "Location E"
-      ]
+      "Person": "persons_list.txt",
+      "Location": "locations_list.txt"
     },
     "Target Persons":
     [

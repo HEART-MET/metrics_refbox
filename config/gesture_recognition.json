@@ -22,19 +22,8 @@
         "Laying"
       ],
 
-      "Person":
-      [
-        "Alice",
-        "Bob"
-      ],
-      "Location":
-      [
-        "Location A",
-        "Location B",
-        "Location C",
-        "Location D",
-        "Location E"
-      ],
+      "Person": "persons_list.txt",
+      "Location": "locations_list.txt",
       "Gesture": "gestures_list.txt"
     },
     "selection likelihood":

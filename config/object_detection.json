@@ -42,14 +42,7 @@
         "Yes",
         "No"
       ],
-      "Location":
-      [
-        "Location A",
-        "Location B",
-        "Location C",
-        "Location D",
-        "Location E"
-      ]
+      "Location": "locations_list.txt"
     },
     "selection likelihood":
     {

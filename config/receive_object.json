@@ -26,11 +26,6 @@
         "Flashlight",
         "Pill box"
       ],
-      "Person":
-      [
-        "Alice",
-        "Bob"
-      ],
 
       "Pose":
       [
@@ -38,14 +33,8 @@
         "Sitting",
         "Laying"
       ],
-      "Location":
-      [
-        "Location A",
-        "Location B",
-        "Location C",
-        "Location D",
-        "Location E"
-      ],
+      "Person": "persons_list.txt",
+      "Location": "locations_list.txt",
       "Pre-grasp behaviour":
       [
         "Reaches out with object",
