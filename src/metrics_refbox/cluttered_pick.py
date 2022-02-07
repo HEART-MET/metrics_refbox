@@ -18,6 +18,8 @@ class ClutteredPickConfig(BenchmarkConfig):
             action = 'picked'
         elif msg.action_completed == msg.PLACED:
             action = 'placed'
+        else:
+            action = 'invalid action'
         timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         m = '[' + timestamp + '] ' + msg.object_name + ' ' + action + '\n'
         self.result_widgets['Feedback'].insertPlainText(m)

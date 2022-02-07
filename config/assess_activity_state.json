@@ -1,0 +1,43 @@
+{
+    "module": "metrics_refbox.assess_activity_state",
+    "class": "AssessActivityStateConfig",
+    "trial_config": "assess_activity_state_trials.json",
+    "timeout": 120.0,
+
+    "variations" :
+    {
+      "Pose":
+      [
+        "Standing",
+        "Sitting",
+        "Laying"
+      ],
+
+      "Person": "persons_list.txt",
+      "Location": "locations_list.txt",
+      "Activity": "activities_list.txt",
+      "Behaviour during interaction":
+      [
+          "Responds",
+          "Does not respond"
+      ]
+    },
+    "selection likelihood":
+    {
+      "Pose":
+      [
+        0.45,
+        0.45,
+        0.1
+      ]
+    },
+    "multiple choice variation": [],
+
+    "results":
+    {
+      "Result": "text_field",
+      "Feedback": "text_area",
+      "Recognized activity": "text_field"
+    },
+    "multiple choice result": []
+}
