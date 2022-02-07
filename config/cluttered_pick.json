@@ -1,0 +1,43 @@
+{
+    "module": "metrics_refbox.cluttered_pick",
+    "class": "ClutteredPickConfig",
+    "trial_config": "cluttered_pick_trials.json",
+    "timeout": 10.0,
+
+    "variations" :
+    {
+      "Objects":
+      [
+        "Cup",
+        "Plate",
+        "Bowl",
+        "Towel",
+        "Shoes",
+        "Sponge",
+        "Bottle",
+        "Toothbrush",
+        "Toothpaste",
+        "Tray",
+        "Sweater",
+        "Cellphone",
+        "Banana",
+        "Medicine bottle",
+        "Reading glasses",
+        "Flashlight",
+        "Pill box"
+      ]
+    },
+    "selection likelihood":
+    {
+    },
+    "multiple choice variation": ["Objects"],
+
+    "results":
+    {
+      "Result": "text_field",
+      "Feedback": "text_area"
+    },
+
+    "multiple choice result": []
+
+}
