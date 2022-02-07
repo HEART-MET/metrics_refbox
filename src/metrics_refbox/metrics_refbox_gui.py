@@ -22,6 +22,7 @@ class MetricsRefboxWidget(QWidget):
     status_signal = pyqtSignal(object)
     timeout_signal = pyqtSignal(object)
     result_signal = pyqtSignal(object)
+    feedback_signal = pyqtSignal(object)
     bagfile_signal = pyqtSignal(object)
 
 
@@ -30,6 +31,7 @@ class MetricsRefboxWidget(QWidget):
         self.status_signal.connect(self.update_status)
         self.timeout_signal.connect(self._handle_timeout)
         self.result_signal.connect(self.update_result)
+        self.feedback_signal.connect(self.update_feedback)
         self.bagfile_signal.connect(self._update_bagfile_name)
         self.timer = QElapsedTimer()
         self.timer_interrupt = QTimer(self)
@@ -50,6 +52,8 @@ class MetricsRefboxWidget(QWidget):
         self.timeout = False
         self.stopped = False
         self.result_msg = None
+        self.feedback_msgs = None
+        self.feedback_timestamps = None
         self.config_locked = True
         self.config = self.metrics_refbox.get_config()
         self.setup()
@@ -390,6 +394,8 @@ class MetricsRefboxWidget(QWidget):
             self.timeout = False
             self.stopped = False
             self.result_msg = None
+            self.feedback_msgs = None
+            self.feedback_timestamps = None
             if msg.rosbag_filename == '':
                 self.status_signal.emit('Error: rosbag filename not specified although start message confirmed\n')
                 self._handle_stop_trial(None)
@@ -400,22 +406,30 @@ class MetricsRefboxWidget(QWidget):
             self.status_signal.emit('Error: Benchmark did not start, probably because the rosbag recorder is not running\n')
             self._handle_stop_trial(None)
 
-
-
     def _result_cb(self, msg):
         '''
         called when we get a result from the robot
         official end of trial time
         '''
         if self.benchmark_running:
-            self.elapsed_time = self.timer.elapsed()
-            self.benchmark_running = False
-            self.benchmark_started = False
+            if msg.message_type == msg.RESULT:
+                self.elapsed_time = self.timer.elapsed()
+                self.benchmark_running = False
+                self.benchmark_started = False
 
-            self.status_signal.emit("Trial completed in %.2f seconds\n" % (self.elapsed_time / 1000.0))
-            self.result_msg = msg
-            self.result_signal.emit(msg)
-            self.enable_buttons()
+                self.status_signal.emit("Trial completed in %.2f seconds\n" % (self.elapsed_time / 1000.0))
+                self.result_msg = msg
+                self.result_signal.emit(msg)
+                self.enable_buttons()
+            elif msg.message_type == msg.FEEDBACK:
+                if not self.feedback_msgs:
+                    self.feedback_msgs = []
+                    self.feedback_timestamps = []
+                self.feedback_msgs.append(msg)
+                self.feedback_timestamps.append(self.timer.elapsed() / 1000.0)
+                self.feedback_signal.emit(msg)
+            else:
+                self.status_signal.emit("Invalid message type received from robot")
 
     def _status_cb(self, msg):
         '''
@@ -442,13 +456,19 @@ class MetricsRefboxWidget(QWidget):
         self.current_benchmark.show_results(msg, self.timeout, self.stopped)
         current_trial_name = self.trial_list_widget.currentItem().text()
         current_team_name = self.team_combo_box.currentText()
-        results_dict = self.current_benchmark.get_trial_result_dict(msg, current_trial_name, current_team_name,
+        results_dict = self.current_benchmark.get_trial_result_dict(msg, self.feedback_msgs, self.feedback_timestamps, current_trial_name, current_team_name,
                                     self.timeout, self.stopped, self.elapsed_time / 1000.0)
 
         filename = self.current_benchmark.get_bagfile_name()[:-4] + '_' + self.current_benchmark.benchmark_name + '.json'
         path = os.path.join(self.metrics_refbox.get_results_file_path(), filename)
         with open(path, "w") as fp:
             json.dump(results_dict, fp)
+
+    def update_feedback(self, msg):
+        '''
+        signal handler for feedback message; only display it
+        '''
+        self.current_benchmark.show_feedback(msg)
 
     def update_timer(self):
         '''

@@ -71,6 +71,18 @@ class BenchmarkConfig(object):
                     widget.setLayout(txtlayout)
                     self.result_widgets[res] = text_field
                     results_group_box_layout.addWidget(widget)
+                elif self.config['results'][res] == 'text_area':
+                    widget = QWidget()
+                    text_area = QPlainTextEdit()
+                    text_area.setReadOnly(True)
+                    text_area.setMaximumHeight(200)
+                    txtlayout = QHBoxLayout()
+                    txtlayout.addWidget(QLabel(res))
+                    txtlayout.addWidget(text_area)
+                    widget.setLayout(txtlayout)
+                    self.result_widgets[res] = text_area
+                    results_group_box_layout.addWidget(widget)
+
         results_group_box.setLayout(results_group_box_layout)
         results_layout.addWidget(results_group_box)
 
@@ -214,12 +226,14 @@ class BenchmarkConfig(object):
                             child.setChecked(False)
                         elif isinstance(child, QComboBox):
                             child.setCurrentIndex(0)
-            else:
+            elif self.config['results'][res] == 'text_field':
                 self.result_widgets[res].setText('')
+            elif self.config['results'][res] == 'text_area':
+                self.result_widgets[res].clear()
         self.notes_widget.clear()
 
 
-    def get_trial_result_dict(self, msg, current_trial_name, current_team_name, timeout, stopped, elapsed_time):
+    def get_trial_result_dict(self, msg, feedback_msgs, feedback_timestamps, current_trial_name, current_team_name, timeout, stopped, elapsed_time):
         '''
         return dictionary with all result fields for this benchmark
         '''
@@ -236,11 +250,23 @@ class BenchmarkConfig(object):
             results['results'] = self.get_result_dict_from_msg(msg)
         else:
             results['results'] = {}
+        if feedback_msgs:
+            results['feedback'] = self.get_feedback_dict_from_msgs(feedback_msgs, feedback_timestamps)
+        else:
+            results['feedback'] = {}
+
         return results
 
     def get_result_dict_from_msg(self, msg):
         '''
         Return benchmark-specific results in the form of a dictionary
+        Must be overridden by subclasses.
+        '''
+        pass
+
+    def get_feedback_dict_from_msgs(self, msgs):
+        '''
+        Return benchmark-specific feedback in the form of a dictionary
         Must be overridden by subclasses.
         '''
         pass
