@@ -22,6 +22,7 @@
   <exec_depend>metrics_refbox_msgs</exec_depend>
   <exec_depend>rosgraph</exec_depend>
   <exec_depend>python_qt_binding</exec_depend>
+  <exec_depend>cv_bridge</exec_depend>
 
 
   <buildtool_depend condition="$ROS_PYTHON_VERSION == 2">python-setuptools</buildtool_depend>
