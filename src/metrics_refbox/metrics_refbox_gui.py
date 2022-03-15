@@ -14,6 +14,7 @@ import datetime
 import glob
 import os
 import importlib
+import cv2
 
 
 SIDEBAR_WIDTH = 200
@@ -461,6 +462,14 @@ class MetricsRefboxWidget(QWidget):
 
         filename = self.current_benchmark.get_bagfile_name()[:-4] + '_' + self.current_benchmark.benchmark_name + '.json'
         path = os.path.join(self.metrics_refbox.get_results_file_path(), filename)
+        if 'images' in results_dict['results'].keys():
+            images = results_dict['results'].pop('images', None)
+            if images is not None:
+                img_folder = path[:-5] # folder with same name as json file
+                if not os.path.exists(img_folder):
+                    os.mkdir(img_folder)
+                for idx, img in enumerate(images):
+                    cv2.imwrite(os.path.join(img_folder, 'frame_%04d.jpg' % idx), img)
         with open(path, "w") as fp:
             json.dump(results_dict, fp)
 

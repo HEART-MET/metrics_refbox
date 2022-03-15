@@ -58,7 +58,8 @@
     {
       "Result": "text_field",
       "Object found": "text_field",
-      "Result type": "text_field"
+      "Result type": "text_field",
+      "Image": "image"
     },
 
     "multiple choice result": []

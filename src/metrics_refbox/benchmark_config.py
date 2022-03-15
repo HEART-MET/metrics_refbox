@@ -82,6 +82,10 @@ class BenchmarkConfig(object):
                     widget.setLayout(txtlayout)
                     self.result_widgets[res] = text_area
                     results_group_box_layout.addWidget(widget)
+                elif self.config['results'][res] == 'image':
+                    img = QLabel()
+                    self.result_widgets[res] = img
+                    results_group_box_layout.addWidget(img)
 
         results_group_box.setLayout(results_group_box_layout)
         results_layout.addWidget(results_group_box)
