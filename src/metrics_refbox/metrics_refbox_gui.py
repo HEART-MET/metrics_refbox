@@ -470,6 +470,17 @@ class MetricsRefboxWidget(QWidget):
                     os.mkdir(img_folder)
                 for idx, img in enumerate(images):
                     cv2.imwrite(os.path.join(img_folder, 'frame_%04d.jpg' % idx), img)
+        if 'feedback' in results_dict.keys():
+            for feedback in results_dict['feedback']:
+                if 'images' in feedback.keys():
+                    images = feedback.pop('images', None)
+                    if images is not None:
+                        img_folder = path[:-5] # folder with same name as json file
+                        if not os.path.exists(img_folder):
+                            os.mkdir(img_folder)
+                        for idx, img in enumerate(images):
+                            cv2.imwrite(os.path.join(img_folder, '%s_frame_%04d.jpg' % (feedback['phase'], idx)), img)
+
         with open(path, "w") as fp:
             json.dump(results_dict, fp)
 

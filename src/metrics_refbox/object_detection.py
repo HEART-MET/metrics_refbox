@@ -28,7 +28,8 @@ class ObjectDetectionConfig(BenchmarkConfig):
         else:
             img_recv = False
             try:
-                cv_img = self.cv_bridge.imgmsg_to_cv2(msg.image, "passthrough")
+                orig_img = self.cv_bridge.imgmsg_to_cv2(msg.image, "passthrough")
+                cv_img = orig_img.copy()
                 if msg.object_found:
                     box_2d = message_converter.convert_ros_message_to_dictionary(msg.box2d)
                     start_pt = (box_2d['min_x'], box_2d['min_y'])

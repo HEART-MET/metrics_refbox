@@ -1,0 +1,75 @@
+{
+    "module": "metrics_refbox.item_delivery",
+    "class": "ItemDeliveryConfig",
+    "trial_config": "item_delivery_trials.json",
+    "timeout": 120.0,
+
+    "variations" :
+    {
+      "Object":
+      [
+        "Cup",
+        "Plate",
+        "Bowl",
+        "Towel",
+        "Shoes",
+        "Sponge",
+        "Bottle",
+        "Toothbrush",
+        "Toothpaste",
+        "Tray",
+        "Sweater",
+        "Cellphone",
+        "Banana",
+        "Medicine bottle",
+        "Reading glasses",
+        "Flashlight",
+        "Pill box"
+      ],
+      "Person": "persons_list.txt",
+      "Object Location": "locations_list.txt",
+      "Person Location": "locations_list.txt",
+
+      "Pose":
+      [
+        "Standing",
+        "Sitting",
+        "Laying"
+      ],
+      "Pre-grasp behaviour":
+      [
+        "Reaches out",
+        "Does not reach out"
+      ],
+
+      "Behaviour during grasp":
+      [
+        "Grasps object",
+        "Does not grasp object"
+      ],
+      "Post-grasp behaviour":
+      [
+        "Keeps object in hand",
+        "Drops object"
+      ]
+    },
+    "selection likelihood":
+    {
+      "Pose":
+      [
+        0.33,
+        0.33,
+        0.34
+      ]
+    },
+    "multiple choice variation": [],
+
+    "results":
+    {
+      "Result": "text_field",
+      "Feedback": "text_area",
+      "Overall result": "text_field",
+      "Image": "image"
+    },
+    "multiple choice result": []
+}
