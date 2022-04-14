@@ -1,4 +1,5 @@
 from metrics_refbox.benchmark_config import BenchmarkConfig
+from python_qt_binding.QtWidgets import QCheckBox, QRadioButton, QComboBox
 from rospy_message_converter import message_converter
 import datetime
 import cv2
@@ -179,3 +180,33 @@ class ItemDeliveryConfig(BenchmarkConfig):
                 feedback_msg['detected_post_grasp_behaviour'] = self.post_grasp_map[msg.post_grasp_result]
             feedback.append(feedback_msg)
         return feedback
+
+    def get_task_info_for_robot(self):
+        config = {}
+        var = 'Object'
+        widget = self.variation_widgets[var]
+        for child in widget.children():
+            if isinstance(child, QRadioButton) or isinstance(child, QCheckBox):
+                if child.isChecked():
+                    config[var] = child.text()
+            if isinstance(child, QComboBox):
+                config[var] = child.currentText()
+
+        var = 'Object Location'
+        widget = self.variation_widgets[var]
+        for child in widget.children():
+            if isinstance(child, QRadioButton) or isinstance(child, QCheckBox):
+                if child.isChecked():
+                    config[var] = child.text()
+            if isinstance(child, QComboBox):
+                config[var] = child.currentText()
+
+        var = 'Person Location'
+        widget = self.variation_widgets[var]
+        for child in widget.children():
+            if isinstance(child, QRadioButton) or isinstance(child, QCheckBox):
+                if child.isChecked():
+                    config[var] = child.text()
+            if isinstance(child, QComboBox):
+                config[var] = child.currentText()
+        return config
