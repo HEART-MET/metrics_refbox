@@ -12,3 +12,17 @@ Most dependencies are listed in [package.xml](package.xml)
 
 ## Usage Instructions
 Usage instructions can be found in this [PDF file](refbox_instructions.pdf).
+
+
+## Run using docker
+
+### Build
+```
+sudo docker build --build-arg ROS_DISTRO=noetic -t metrics_refbox docker
+```
+
+### Execute
+```
+sudo docker run -it --net=host --env="DISPLAY" --env="QT_X11_NO_MITSHM=1" --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw"  --name refbox_container metrics_refbox:latest
+```
+
