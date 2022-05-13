@@ -1,4 +1,7 @@
-from metrics_refbox.benchmark_config import BenchmarkConfig
+try:
+    from metrics_refbox.benchmark_config import BenchmarkConfig
+except:
+    from benchmark_config import BenchmarkConfig
 import datetime
 
 class ClutteredPickConfig(BenchmarkConfig):

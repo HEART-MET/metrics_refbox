@@ -1,4 +1,7 @@
-from metrics_refbox.benchmark_config import BenchmarkConfig
+try:
+    from metrics_refbox.benchmark_config import BenchmarkConfig
+except:
+    from benchmark_config import BenchmarkConfig
 
 class HandoverObjectConfig(BenchmarkConfig):
     def __init__(self, config, config_path, benchmark_name, benchmark_result_type):
