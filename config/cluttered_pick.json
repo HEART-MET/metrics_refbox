@@ -2,7 +2,7 @@
     "module": "metrics_refbox.cluttered_pick",
     "class": "ClutteredPickConfig",
     "trial_config": "cluttered_pick_trials.json",
-    "timeout": 10.0,
+    "timeout": 600.0,
 
     "variations" :
     {
