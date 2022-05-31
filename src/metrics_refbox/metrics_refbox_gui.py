@@ -310,6 +310,8 @@ class MetricsRefboxWidget(QWidget):
         if self.benchmark_running or self.benchmark_started:
             self.update_status("Benchmark has already started. Stop and start the benchmark if you want to restart it\n")
         else:
+            self.elapsed_time = 0.0
+            self.timer.invalidate()
             self.metrics_refbox.start(self.current_benchmark_enum, self.current_benchmark.get_task_info_for_robot())
             self.benchmark_started = True
             self.current_benchmark.clear_results()
@@ -322,7 +324,10 @@ class MetricsRefboxWidget(QWidget):
         Trial stop button
         '''
         self.metrics_refbox.stop()
-        self.elapsed_time = self.timer.elapsed()
+        if self.timer.isValid():
+            self.elapsed_time = self.timer.elapsed()
+        else:
+            self.elapsed_time = 0.0
         self.stopped = True
         self.benchmark_running = False
         self.benchmark_started = False
@@ -336,7 +341,10 @@ class MetricsRefboxWidget(QWidget):
         '''
         if self.benchmark_running or self.benchmark_started:
             self.metrics_refbox.stop()
-            self.elapsed_time = self.timer.elapsed()
+            if self.timer.isValid():
+                self.elapsed_time = self.timer.elapsed()
+            else:
+                self.elapsed_time = 0.0
             self.stopped = True
             self.benchmark_running = False
             self.benchmark_started = False
@@ -346,6 +354,7 @@ class MetricsRefboxWidget(QWidget):
             self.stop_trial_button.setEnabled(True)
             self.continuous_recording = False
         else:
+            self.timer.invalidate()
             self.metrics_refbox.start_recording()
             self.continuous_recording = True
             self.start_continuous_recording_button.setText('Stop recording')
@@ -393,7 +402,10 @@ class MetricsRefboxWidget(QWidget):
         '''
         if self.benchmark_running:
             if msg.message_type == msg.RESULT:
-                self.elapsed_time = self.timer.elapsed()
+                if self.timer.isValid():
+                    self.elapsed_time = self.timer.elapsed()
+                else:
+                    self.elapsed_time = 0.0
                 self.benchmark_running = False
                 self.benchmark_started = False
 
@@ -434,12 +446,19 @@ class MetricsRefboxWidget(QWidget):
         signal handler for result message; process and save result
         '''
         self.current_benchmark.show_results(msg, self.timeout, self.stopped)
-        current_trial_name = self.trial_list_widget.currentItem().text()
+        if self.trial_list_widget.currentItem() is None:
+            current_trial_name = 'unnamed_trial'
+        else:
+            current_trial_name = self.trial_list_widget.currentItem().text()
         current_team_name = self.team_combo_box.currentText()
         results_dict = self.current_benchmark.get_trial_result_dict(msg, self.feedback_msgs, self.feedback_timestamps, current_trial_name, current_team_name,
                                     self.timeout, self.stopped, self.elapsed_time / 1000.0)
 
-        filename = self.current_benchmark.get_bagfile_name()[:-4] + '_' + self.current_benchmark.benchmark_name + '.json'
+        if self.current_benchmark.get_bagfile_name() is None:
+            timestamp = datetime.datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+            filename =  current_team_name + '_' + timestamp + '_' + self.current_benchmark.benchmark_name + '.json'
+        else:
+            filename = self.current_benchmark.get_bagfile_name()[:-4] + '_' + self.current_benchmark.benchmark_name + '.json'
         path = os.path.join(self.metrics_refbox.get_results_file_path(), filename)
         if 'images' in results_dict['results'].keys():
             if 'Target object' in results_dict['config'].keys():
@@ -519,7 +538,7 @@ class MetricsRefboxWidget(QWidget):
 
     def disable_buttons(self):
         '''
-        disable buttons when trial is running
+        disable buttons (except stop button) when trial is running
         '''
         self.team_combo_box.setEnabled(False)
         self.benchmark_combo_box.setEnabled(False)
@@ -532,6 +551,9 @@ class MetricsRefboxWidget(QWidget):
         self.stop_trial_button.setEnabled(True)
 
     def enable_buttons(self):
+        '''
+        enable buttons (except stop button) when trial is not running
+        '''
         self.team_combo_box.setEnabled(True)
         self.benchmark_combo_box.setEnabled(True)
         self.trial_list_widget.setEnabled(True)
