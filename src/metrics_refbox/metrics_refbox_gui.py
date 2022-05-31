@@ -137,10 +137,6 @@ class MetricsRefboxWidget(QWidget):
         self.stop_trial_button = QPushButton('Stop')
         self.stop_trial_button.clicked.connect(self._handle_stop_trial)
         self.stop_trial_button.setEnabled(False)
-        self.prev_trial_button = QPushButton('Previous')
-        self.prev_trial_button.clicked.connect(self._handle_prev_trial)
-        self.next_trial_button = QPushButton('Next')
-        self.next_trial_button.clicked.connect(self._handle_next_trial)
         self.start_continuous_recording_button = QPushButton('Start continuous recording')
         self.start_continuous_recording_button.clicked.connect(self._handle_continuous_recording)
 
@@ -150,8 +146,6 @@ class MetricsRefboxWidget(QWidget):
         self.timer_field.setAutoFillBackground(True)
         benchmark_controls_layout.addWidget(self.start_trial_button)
         benchmark_controls_layout.addWidget(self.stop_trial_button)
-        benchmark_controls_layout.addWidget(self.prev_trial_button)
-        benchmark_controls_layout.addWidget(self.next_trial_button)
         benchmark_controls_layout.addWidget(self.start_continuous_recording_button)
         benchmark_controls_layout.addWidget(self.timer_field)
         benchmark_controls_group_box.setLayout(benchmark_controls_layout)
@@ -335,22 +329,6 @@ class MetricsRefboxWidget(QWidget):
         self.status_signal.emit("Sent stop command\n")
         self.result_signal.emit(None)
         self.enable_buttons()
-
-    def _handle_next_trial(self, button):
-        '''
-        Select next trial
-        '''
-        row = self.trial_list_widget.currentRow()
-        if (row + 1 < self.trial_list_widget.count()):
-            self.trial_list_widget.setCurrentRow(row + 1)
-
-    def _handle_prev_trial(self, button):
-        '''
-        Select previous trial
-        '''
-        row = self.trial_list_widget.currentRow()
-        if (row - 1 >= 0):
-            self.trial_list_widget.setCurrentRow(row - 1)
 
     def _handle_continuous_recording(self, button):
         '''
@@ -546,8 +524,6 @@ class MetricsRefboxWidget(QWidget):
         self.team_combo_box.setEnabled(False)
         self.benchmark_combo_box.setEnabled(False)
         self.trial_list_widget.setEnabled(False)
-        self.next_trial_button.setEnabled(False)
-        self.prev_trial_button.setEnabled(False)
         self.delete_button.setEnabled(False)
         self.generate_button.setEnabled(False)
         self.save_trials_button.setEnabled(False)
@@ -559,8 +535,6 @@ class MetricsRefboxWidget(QWidget):
         self.team_combo_box.setEnabled(True)
         self.benchmark_combo_box.setEnabled(True)
         self.trial_list_widget.setEnabled(True)
-        self.next_trial_button.setEnabled(True)
-        self.prev_trial_button.setEnabled(True)
         self.delete_button.setEnabled(True)
         self.generate_button.setEnabled(True)
         self.save_trials_button.setEnabled(True)
