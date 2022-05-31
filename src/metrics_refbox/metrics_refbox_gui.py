@@ -136,6 +136,7 @@ class MetricsRefboxWidget(QWidget):
         self.start_trial_button.clicked.connect(self._handle_start_trial)
         self.stop_trial_button = QPushButton('Stop')
         self.stop_trial_button.clicked.connect(self._handle_stop_trial)
+        self.stop_trial_button.setEnabled(False)
         self.prev_trial_button = QPushButton('Previous')
         self.prev_trial_button.clicked.connect(self._handle_prev_trial)
         self.next_trial_button = QPushButton('Next')
@@ -552,6 +553,7 @@ class MetricsRefboxWidget(QWidget):
         self.save_trials_button.setEnabled(False)
         self.lock_button.setEnabled(False)
         self.start_trial_button.setEnabled(False)
+        self.stop_trial_button.setEnabled(True)
 
     def enable_buttons(self):
         self.team_combo_box.setEnabled(True)
@@ -564,7 +566,7 @@ class MetricsRefboxWidget(QWidget):
         self.save_trials_button.setEnabled(True)
         self.lock_button.setEnabled(True)
         self.start_trial_button.setEnabled(True)
-
+        self.stop_trial_button.setEnabled(False)
 
 def main():
     app = QApplication(["Metrics Refbox"])
