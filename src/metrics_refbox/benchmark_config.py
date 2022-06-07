@@ -17,15 +17,14 @@ class BenchmarkConfig(object):
         self.bagfile_name = None
         self.notes_widget = None
 
-    def setup(self, config_layout, results_layout, config_locked):
+    def setup(self, config_layout, results_layout):
         '''
         set up the layout for selecting options from the different benchmark variations
         '''
         config_group_box_layout = QHBoxLayout()
         self.config_group_box = QGroupBox('Configuration')
         self.config_group_box.setCheckable(True)
-        if (config_locked):
-            self.config_group_box.setChecked(False)
+        self.config_group_box.setChecked(False)
         variations = self.config['variations'].keys()
         for var in variations:
             single_choice = True

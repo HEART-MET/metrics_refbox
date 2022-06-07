@@ -55,7 +55,6 @@ class MetricsRefboxWidget(QWidget):
         self.result_msg = None
         self.feedback_msgs = None
         self.feedback_timestamps = None
-        self.config_locked = True
         self.config = self.metrics_refbox.get_config()
         self.setup()
         self.show()
@@ -100,16 +99,14 @@ class MetricsRefboxWidget(QWidget):
         self.save_trials_button = QPushButton('Save')
         self.save_trials_button.clicked.connect(self._handle_save_trial_config)
 
-        self.lock_button = QPushButton('Lock')
-        if self.config_locked:
-            self.lock_button.setText('Unlock')
-        self.lock_button.clicked.connect(self._handle_lock)
+        self.trial_count_lbl = QLabel()
+        self.update_trial_count()
 
         sidebar_button_layout = QGridLayout()
         sidebar_button_layout.addWidget(self.generate_button, 0, 0)
         sidebar_button_layout.addWidget(self.delete_button, 0, 1)
         sidebar_button_layout.addWidget(self.save_trials_button, 1, 0)
-        sidebar_button_layout.addWidget(self.lock_button, 1, 1)
+        sidebar_button_layout.addWidget(self.trial_count_lbl, 1, 1)
         sidebar_layout.addLayout(sidebar_button_layout)
 
         layout.addLayout(sidebar_layout, 0, 0)
@@ -202,7 +199,7 @@ class MetricsRefboxWidget(QWidget):
         for i in reversed(range(self.trial_results_layout.count())):
             self.trial_results_layout.itemAt(i).widget().setParent(None)
 
-        self.current_benchmark.setup(self.trial_config_layout, self.trial_results_layout, self.config_locked)
+        self.current_benchmark.setup(self.trial_config_layout, self.trial_results_layout)
 
         self.trial_list_widget.clear()
         self.trial_configs.clear()
@@ -233,6 +230,7 @@ class MetricsRefboxWidget(QWidget):
         self._handle_save_trial_config(None)
         self.set_current_benchmark()
         self.setup_trial_config()
+        self.update_trial_count()
 
     def _handle_trial_change(self, current_item, previous_item):
         '''
@@ -288,20 +286,6 @@ class MetricsRefboxWidget(QWidget):
         trial_config_file = os.path.join(path, self.current_benchmark.config['trial_config'])
         with open(trial_config_file, "w") as fp:
             json.dump(self.trial_configs, fp)
-
-    def _handle_lock(self, button):
-        '''
-        Lock trial config settings so they are not changed accidentally
-        '''
-        if self.config_locked:
-            self.current_benchmark.unlock_config()
-            self.config_locked = False
-            self.lock_button.setText('Lock')
-        else:
-            self.current_benchmark.lock_config()
-            self.config_locked = True
-            self.lock_button.setText('Unlock')
-
 
     def _handle_start_trial(self, button):
         '''
@@ -500,6 +484,7 @@ class MetricsRefboxWidget(QWidget):
 
         with open(path, "w") as fp:
             json.dump(results_dict, fp)
+        self.update_trial_count()
 
     def update_feedback(self, msg):
         '''
@@ -546,7 +531,6 @@ class MetricsRefboxWidget(QWidget):
         self.delete_button.setEnabled(False)
         self.generate_button.setEnabled(False)
         self.save_trials_button.setEnabled(False)
-        self.lock_button.setEnabled(False)
         self.start_trial_button.setEnabled(False)
         self.stop_trial_button.setEnabled(True)
 
@@ -560,9 +544,13 @@ class MetricsRefboxWidget(QWidget):
         self.delete_button.setEnabled(True)
         self.generate_button.setEnabled(True)
         self.save_trials_button.setEnabled(True)
-        self.lock_button.setEnabled(True)
         self.start_trial_button.setEnabled(True)
         self.stop_trial_button.setEnabled(False)
+
+    def update_trial_count(self):
+        result_files = sorted(glob.glob(self.metrics_refbox.get_results_file_path() + '/*.json'))
+        current_benchmark_trial_count = sum(True for rf in result_files if rf.endswith(self.current_benchmark.benchmark_name + '.json'))
+        self.trial_count_lbl.setText("Trials completed: %d" % current_benchmark_trial_count)
 
 def main():
     app = QApplication(["Metrics Refbox"])
