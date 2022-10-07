@@ -2,42 +2,12 @@
     "module": "metrics_refbox.object_detection",
     "class": "ObjectDetectionConfig",
     "trial_config": "object_detection_trials.json",
-    "timeout": 10.0,
+    "timeout": 20.0,
 
     "variations" :
     {
 
-      "Target object":
-      [
-        "Cup",
-        "Plate",
-        "Bowl",
-        "Towel",
-        "Shoes",
-        "Sponge",
-        "Bottle",
-        "Toothbrush",
-        "Toothpaste",
-        "Tray",
-        "Sweater",
-        "Cellphone",
-        "Banana",
-        "Medicine bottle",
-        "Reading glasses",
-        "Flashlight",
-        "Pill box",
-        "Book"
-      ],
-
-      "Secondary objects":
-      [
-        "Book",
-        "Knife",
-        "Keyboard",
-        "Cellphone charger",
-        "Shopping bag"
-      ],
-
+      "Target object": "objects_list.txt",
       "Target object present":
       [
         "Yes",

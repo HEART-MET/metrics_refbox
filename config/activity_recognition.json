@@ -2,27 +2,10 @@
     "module": "metrics_refbox.activity_recognition",
     "class": "ActivityRecognitionConfig",
     "trial_config": "activity_recognition_trials.json",
-    "timeout": 20.0,
+    "timeout": 50.0,
 
     "variations" :
     {
-      "Distance":
-      [
-        "0.5 m",
-        "1.0 m",
-        "1.5 m",
-        "2.0 m",
-        "5.0 m"
-      ],
-
-      "Pose":
-      [
-        "Standing",
-        "Sitting",
-        "Laying"
-      ],
-
-      "Person": "persons_list.txt",
       "Location": "locations_list.txt",
       "Activity": "activities_list.txt"
     },

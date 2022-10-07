@@ -2,7 +2,7 @@
     "module": "metrics_refbox.person_detection",
     "class": "PersonDetectionConfig",
     "trial_config": "person_detection_trials.json",
-    "timeout": 10.0,
+    "timeout": 40.0,
 
     "variations" :
     {

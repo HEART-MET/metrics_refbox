@@ -9,6 +9,7 @@ from metrics_refbox_msgs.msg import ObjectDetectionResult
 from rospy_message_converter import message_converter
 import cv2
 from cv_bridge import CvBridge, CvBridgeError
+import sensor_msgs
 
 class ObjectDetectionConfig(BenchmarkConfig):
     def __init__(self, config, config_path, benchmark_name, benchmark_result_type):
@@ -19,8 +20,9 @@ class ObjectDetectionConfig(BenchmarkConfig):
         trial_config = super(ObjectDetectionConfig, self).generate()
         # make sure the selected target object is not included in the
         # selected secondary objects
-        if trial_config['Target object'][0] in trial_config['Secondary objects']:
-            trial_config['Secondary objects'].remove(trial_config['Target object'][0])
+        if 'Secondary objects' in trial_config:
+            if trial_config['Target object'][0] in trial_config['Secondary objects']:
+                trial_config['Secondary objects'].remove(trial_config['Target object'][0])
         return trial_config
 
     def show_results(self, msg, timeout, stopped):
@@ -32,12 +34,16 @@ class ObjectDetectionConfig(BenchmarkConfig):
             img_recv = False
             try:
                 orig_img = self.cv_bridge.imgmsg_to_cv2(msg.image, "passthrough")
+                if msg.image.encoding == 'rgb8':
+                    orig_img = orig_img[:, :,::-1]
                 cv_img = orig_img.copy()
                 if msg.object_found:
                     box_2d = message_converter.convert_ros_message_to_dictionary(msg.box2d)
                     start_pt = (box_2d['min_x'], box_2d['min_y'])
                     end_pt = (box_2d['max_x'], box_2d['max_y'])
                     cv_img = cv2.rectangle(cv_img, start_pt, end_pt, (255, 0, 0), 2)
+                    cv_img = cv2.resize(cv_img, (int(cv_img.shape[1] *0.5), int(cv_img.shape[0] * 0.5)))
+                else:
                     cv_img = cv2.resize(cv_img, (int(cv_img.shape[1] *0.5), int(cv_img.shape[0] * 0.5)))
                 img_recv = True
             except CvBridgeError as e:
@@ -65,11 +71,15 @@ class ObjectDetectionConfig(BenchmarkConfig):
         if msg.result_type == ObjectDetectionResult.BOUNDING_BOX_2D:
             result['result_type'] = "2D bounding box"
             result['box2d'] = message_converter.convert_ros_message_to_dictionary(msg.box2d)
+            result['box3d'] = message_converter.convert_ros_message_to_dictionary(msg.box3d)
         else:
             result['result_type'] = "3D bounding box"
             result['box3d'] = message_converter.convert_ros_message_to_dictionary(msg.box3d)
+            result['box2d'] = message_converter.convert_ros_message_to_dictionary(msg.box2d)
         try:
             cv_img = self.cv_bridge.imgmsg_to_cv2(msg.image, "passthrough")
+            if msg.image.encoding == 'rgb8':
+                cv_img = cv_img[:, :,::-1]
             result['images'] = [cv_img]
         except CvBridgeError as e:
             result['images'] = None

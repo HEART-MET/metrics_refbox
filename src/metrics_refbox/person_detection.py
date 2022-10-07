@@ -24,12 +24,17 @@ class PersonDetectionConfig(BenchmarkConfig):
             img_recv = False
             try:
                 orig_img = self.cv_bridge.imgmsg_to_cv2(msg.image, "passthrough")
+#                orig_img = orig_img[:, :,::-1]
+                if msg.image.encoding == 'rgb8':
+                    orig_img = orig_img[:, :,::-1]
                 cv_img = orig_img.copy()
                 if msg.person_found:
                     box_2d = message_converter.convert_ros_message_to_dictionary(msg.box2d)
                     start_pt = (box_2d['min_x'], box_2d['min_y'])
                     end_pt = (box_2d['max_x'], box_2d['max_y'])
                     cv_img = cv2.rectangle(cv_img, start_pt, end_pt, (255, 0, 0), 2)
+                    cv_img = cv2.resize(cv_img, (int(cv_img.shape[1] *0.5), int(cv_img.shape[0] * 0.5)))
+                else:
                     cv_img = cv2.resize(cv_img, (int(cv_img.shape[1] *0.5), int(cv_img.shape[0] * 0.5)))
                 img_recv = True
             except CvBridgeError as e:
@@ -53,6 +58,9 @@ class PersonDetectionConfig(BenchmarkConfig):
         result['box2d'] = message_converter.convert_ros_message_to_dictionary(msg.box2d)
         try:
             cv_img = self.cv_bridge.imgmsg_to_cv2(msg.image, "passthrough")
+#            cv_img = cv_img[:, :,::-1]
+            if msg.image.encoding == 'rgb8':
+                cv_img = cv_img[:, :,::-1]
             result['images'] = [cv_img]
         except CvBridgeError as e:
             result['images'] = None
