@@ -5,6 +5,6 @@
 # Set the IP address of the machine running the referee box
 #export ROS_IP=192.168.1.101
 
-source /opt/ros/$1/setup.sh
+source /opt/ros/noetic/setup.sh
 source /home/root/catkin_ws/devel/setup.bash
 roslaunch metrics_refbox metrics_refbox.launch

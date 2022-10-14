@@ -18,7 +18,7 @@ Usage instructions can be found in this [PDF file](refbox_instructions.pdf).
 
 ### Build
 ```
-sudo docker build --build-arg ROS_DISTRO=noetic -t metrics_refbox docker
+sudo docker build -t metrics_refbox docker
 ```
 
 ### Execute
