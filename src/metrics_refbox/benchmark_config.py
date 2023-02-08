@@ -54,7 +54,7 @@ class BenchmarkConfig(object):
         results = self.config['results'].keys()
         for res in results:
             single_choice = True
-            if var in self.config['multiple choice result']:
+            if res in self.config['multiple choice result']:
                 single_choice = False
             if isinstance(self.config['results'][res], list):
                 self.result_widgets[res], scroll = self.add_config(res, self.config['results'][res], single_choice=single_choice)

@@ -1,0 +1,21 @@
+{
+    "module": "metrics_refbox.generic_task",
+    "class": "GenericTaskConfig",
+    "trial_config": "generic_task_trials.json",
+    "timeout": 30.0,
+
+    "variations" :
+    {
+    },
+    "selection likelihood":
+    {
+    },
+    "multiple choice variation": [],
+
+    "results":
+    {
+      "Result": "text_field",
+      "Response": "text_field"
+    },
+    "multiple choice result": []
+}
