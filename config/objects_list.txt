@@ -1,22 +1,15 @@
-cup
-plate
-bowl
-towel
-shoes
-sponge
-bottle
-toothbrush
-toothpaste
-tray
-sweater
-cellphone
-banana
-medicine bottle
-reading glasses
-flashlight
-pill box
-book
-knife
-cellphone charger
-shopping bag
-keyboard
+Fork
+Spoon
+Knife
+Circle_plate
+Cup
+Cutlery_container
+Mini_fork
+Square_plate
+Broom
+Dustpan
+Brush
+Toothbrush
+Toothpaste
+Soap
+Shampoo
